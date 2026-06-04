@@ -3,126 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nrupala | Portfolio & Project Directory</title>
+    <title>nrupala | Engineering Dashboard</title>
     <style>
         :root {
-            --bg-color: #fafbfc;
-            --card-bg: #ffffff;
-            --text-main: #24292e;
-            --text-muted: #586069;
-            --border-color: #e1e4e8;
-            --link-color: #0366d6;
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #7ee787;
         }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            max-width: 850px; 
-            margin: 40px auto; 
-            padding: 0 20px; 
+            max-width: 950px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
             color: var(--text-main);
             background-color: var(--bg-color);
-            line-height: 1.5;
+            line-height: 1.6;
         }
-        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; font-size: 32px; font-weight: 700; }
-        ul { list-style-type: none; padding: 0; margin: 0; }
+        h1 { font-size: 32px; font-weight: 700; margin-bottom: 5px; color: #fff; }
+        .subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 16px; }
+        .controls-panel {
+            display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;
+            background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); border-radius: 8px;
+        }
+        .search-input {
+            flex: 1; min-width: 200px; background: var(--bg-color); border: 1px solid var(--border-color);
+            color: #fff; padding: 10px 15px; border-radius: 6px; font-size: 14px;
+        }
+        .search-input:focus { border-color: var(--accent-blue); outline: none; }
+        .filter-select {
+            background: var(--bg-color); border: 1px solid var(--border-color);
+            color: #fff; padding: 10px 15px; border-radius: 6px; font-size: 14px; cursor: pointer;
+        }
+        #repo-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(min-width: 768px) { #repo-grid { grid-template-columns: 1fr 1fr; } }
         .repo-card { 
-            margin-bottom: 20px; 
-            padding: 20px; 
-            background: var(--card-bg);
-            border: 1px solid var(--border-color); 
-            border-radius: 8px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; 
+            padding: 20px; display: flex; flex-direction: column; justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
         }
-        .repo-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .repo-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; }
-        .repo-title { font-size: 20px; font-weight: 600; text-decoration: none; color: var(--link-color); }
+        .repo-card:hover { transform: translateY(-3px); border-color: #8b949e; }
+        .repo-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .repo-title { font-size: 18px; font-weight: 600; text-decoration: none; color: var(--accent-blue); display: flex; align-items: center; gap: 6px; }
         .repo-title:hover { text-decoration: underline; }
-        .repo-desc { margin: 10px 0; color: var(--text-muted); font-size: 14px; }
-        
-        /* Badges and Public Metadata Styling */
-        .metadata-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; font-size: 12px; font-weight: 500; }
-        .badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 20px; background-color: #f1f2f4; color: var(--text-main); border: 1px solid var(--border-color); }
-        .badge-lang { background-color: #ddf4ff; color: #0969da; border-color: #b4dfff; }
-        .badge-license { background-color: #dafbe1; color: #1a7f37; border-color: #bcf5c6; }
-        .badge-source { font-size: 12px; margin-left: 8px; color: var(--text-muted); text-decoration: none; }
-        .badge-source:hover { color: var(--link-color); text-decoration: underline; }
-        
-        .date-meta { font-size: 12px; color: var(--text-muted); margin-top: 10px; text-align: right; }
-        .loading { font-size: 16px; color: var(--text-muted); font-style: italic; }
+        .source-link { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+        .source-link:hover { color: var(--accent-blue); }
+        .repo-desc { margin: 12px 0; color: var(--text-muted); font-size: 14px; min-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .stats-panel {
+            background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 10px; margin: 12px 0;
+            display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 12px; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-val { font-size: 16px; font-weight: bold; color: #fff; }
+        .stat-lbl { color: var(--text-muted); font-size: 11px; }
+        .graph-container { height: 45px; margin: 10px 0; border-bottom: 1px dashed var(--border-color); position: relative; }
+        .graph-svg { width: 100%; height: 100%; overflow: visible; }
+        .meta-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
+        .lang-badge { padding: 2px 8px; border-radius: 12px; background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); font-weight: 600; font-size: 11px; }
+        .date-lbl { color: var(--text-muted); font-size: 11px; }
+        .loading { font-size: 18px; color: var(--text-muted); font-style: italic; text-align: center; margin-top: 5px; }
     </style>
 </head>
 <body>
-    <h1>nrupala's Published Projects</h1>
-    <ul id="repo-list" class="loading">Fetching deployed websites and repository metadata...</ul>
 
-    <script>
-        const username = 'nrupala'; 
+    <h1>nrupala // Engineering Dashboard</h1>
+    <div class="subtitle">Live portfolio metrics and directory of deployed applications.</div>
 
-        async function fetchPagesRepos() {
-            try {
-                // Fetch up to 100 public repositories sorted by recent updates
-                const response = await fetch(`https://github.com{username}/repos?per_page=100&sort=updated`);
-                if (!response.ok) throw new Error('API limit reached or user not found');
-                
-                const repos = await response.json();
-                const listElement = document.getElementById('repo-list');
-                listElement.innerHTML = '';
-                listElement.classList.remove('loading');
+    <div class="controls-panel">
+        <input type="text" id="searchBar" class="search-input" placeholder="🔍 Search projects...">
+        <select id="langFilter" class="filter-select">
+            <option value="all">All Languages</option>
+        </select>
+    </div>
 
-                // Filter for repos that have Pages active, excluding the main homepage directory itself
-                const pagesRepos = repos.filter(repo => repo.has_pages && repo.name.toLowerCase() !== `${username}.github.io`.toLowerCase());
+    <div id="repo-grid" class="loading">Loading ecosystem metadata...</div>
 
-                if (pagesRepos.length === 0) {
-                    listElement.innerHTML = '<li class="repo-card">No other published GitHub Pages sites found. Ensure "Pages" deployment is active in your other repository settings!</li>';
-                    return;
-                }
-
-                for (const repo of pagesRepos) {
-                    const li = document.createElement('li');
-                    li.className = 'repo-card';
-                    
-                    // Fallback configuration if custom homepage metadata field isn't set
-                    const deployedUrl = repo.homepage || `https://${username}.github.io/${repo.name}/`;
-                    const formattedDate = new Date(repo.updated_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-                    
-                    // Construct metadata pills dynamically
-                    let metaBadges = `
-                        <span class="badge">⭐️ ${repo.stargazers_count} Stars</span>
-                        <span class="badge">🍴 ${repo.forks_count} Forks</span>
-                    `;
-                    
-                    if (repo.language) {
-                        metaBadges += `<span class="badge badge-lang">💻 ${repo.language}</span>`;
-                    }
-                    if (repo.license && repo.license.name) {
-                        metaBadges += `<span class="badge badge-license">⚖️ ${repo.license.spdx_id || 'Licensed'}</span>`;
-                    }
-
-                    li.innerHTML = `
-                        <div class="repo-header">
-                            <div>
-                                <a href="${deployedUrl}" class="repo-title" target="_blank">🔗 ${repo.name}</a>
-                                <a href="${repo.html_url}" class="badge-source" target="_blank">(View Source Code)</a>
-                            </div>
-                        </div>
-                        <p class="repo-desc">${repo.description || 'No project summary provided. Add a description in the repo settings to display it here.'}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                            <div class="metadata-container">${metaBadges}</div>
-                            <div class="date-meta">Updated: ${formattedDate}</div>
-                        </div>
-                    `;
-                    listElement.appendChild(li);
-                }
-            } catch (error) {
-                document.getElementById('repo-list').innerHTML = '<li class="repo-card">Error loading data. Public GitHub API limits may be temporarily reached for your current IP address.</li>';
-                console.error(error);
-            }
-        }
-
-        fetchPagesRepos();
-    </script>
+    <!-- 🔥 We pull the heavy logic from a separate script file to prevent loading issues -->
+    <script src="dashboard.js"></script>
 </body>
 </html>
