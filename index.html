@@ -1,0 +1,73 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nrupala | Project Directory</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            max-width: 750px; 
+            margin: 50px auto; 
+            padding: 0 20px; 
+            color: #24292e;
+            background-color: #fafbfc;
+        }
+        h1 { border-bottom: 1px solid #e1e4e8; padding-bottom: 10px; font-size: 28px; }
+        ul { list-style-type: none; padding: 0; }
+        li { 
+            margin: 15px 0; 
+            padding: 15px; 
+            background: #ffffff;
+            border: 1px solid #e1e4e8; 
+            border-radius: 6px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        a { font-weight: 600; text-decoration: none; color: #0366d6; font-size: 18px; }
+        a:hover { text-decoration: underline; }
+        p { margin: 5px 0 0 0; color: #586069; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>nrupala's Deployed Projects</h1>
+    <ul id="repo-list">Loading deployed websites...</ul>
+
+    <script>
+        const username = 'nrupala'; 
+
+        async function fetchPagesRepos() {
+            try {
+                // Fetch up to 100 of your public repositories
+                const response = await fetch(`https://github.com{username}/repos?per_page=100&sort=updated`);
+                const repos = await response.json();
+                const listElement = document.getElementById('repo-list');
+                listElement.innerHTML = '';
+
+                // Filter for repos that have Pages turned on, excluding this main hub repo
+                const pagesRepos = repos.filter(repo => repo.has_pages && repo.name.toLowerCase() !== `${username}.github.io`.toLowerCase());
+
+                if (pagesRepos.length === 0) {
+                    listElement.innerHTML = '<li>No other deployed GitHub Pages sites found yet. Make sure "Pages" is turned on in your other repo settings!</li>';
+                    return;
+                }
+
+                pagesRepos.forEach(repo => {
+                    const li = document.createElement('li');
+                    const pagesUrl = `https://${username}.github.io/${repo.name}/`;
+                    
+                    li.innerHTML = `
+                        <a href="${pagesUrl}" target="_blank">🔗 ${repo.name}</a>
+                        <p>${repo.description || 'No description provided for this repository.'}</p>
+                    `;
+                    listElement.appendChild(li);
+                });
+            } catch (error) {
+                document.getElementById('repo-list').innerHTML = '<li>Error loading repositories. Please try again later.</li>';
+                console.error(error);
+            }
+        }
+
+        fetchPagesRepos();
+    </script>
+</body>
+</html>
