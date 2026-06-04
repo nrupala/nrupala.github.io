@@ -1,0 +1,36 @@
+name: Portfolio Builder Engine
+on:
+  schedule:
+    - cron: '0 0 * * *' # Re-builds automatically every 24 hours
+  push:
+    branches: [ main ] # Re-builds instantly on pushes to your main branch
+  workflow_dispatch: # Gives you a manual trigger button in your GitHub dashboard
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Fetch and Compile Static HTML Dashboard
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const buildScript = require('./compile.js');
+            await buildScript({ github, context });
+
+      - name: Deploy Flat File changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@://github.com"
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-rebuild deployment directory" && git push)
