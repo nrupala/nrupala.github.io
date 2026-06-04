@@ -1,10 +1,10 @@
 name: Portfolio Builder Engine
 on:
   schedule:
-    - cron: '0 0 * * *' # Re-builds automatically every 24 hours
+    - cron: '0 0 * * *'
   push:
-    branches: [ main ] # Re-builds instantly on pushes to your main branch
-  workflow_dispatch: # Manual override build button
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,24 +16,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      # Installs the official GitHub automation toolkit so your script can query the API
-      - name: Install Official GitHub Toolkit
-        run: npm install @actions/github
-
-      # Uses native Node execution instead of a scoped action script wrapper
-      - name: Fetch and Compile Static HTML Dashboard
+      - name: Fetch Data and Generate Template
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node compile.js
+        run: |
+          # Fetch public repositories safely via curl using the internal system token
+          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+               "https://github.com" > repos.json
+
+          # Generate the final clean index.html using native bash/jq execution
+          bash build_page.sh
 
       - name: Deploy Flat File changes
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "github-actions[bot]@://github.com"
           git add index.html
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-rebuild deployment directory" && git push)
