@@ -1,68 +1,123 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nrupala | Project Directory</title>
+    <title>nrupala | Portfolio & Project Directory</title>
     <style>
+        :root {
+            --bg-color: #fafbfc;
+            --card-bg: #ffffff;
+            --text-main: #24292e;
+            --text-muted: #586069;
+            --border-color: #e1e4e8;
+            --link-color: #0366d6;
+        }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            max-width: 750px; 
-            margin: 50px auto; 
+            max-width: 850px; 
+            margin: 40px auto; 
             padding: 0 20px; 
-            color: #24292e;
-            background-color: #fafbfc;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            line-height: 1.5;
         }
-        h1 { border-bottom: 1px solid #e1e4e8; padding-bottom: 10px; font-size: 28px; }
-        ul { list-style-type: none; padding: 0; }
-        li { 
-            margin: 15px 0; 
-            padding: 15px; 
-            background: #ffffff;
-            border: 1px solid #e1e4e8; 
-            border-radius: 6px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; font-size: 32px; font-weight: 700; }
+        ul { list-style-type: none; padding: 0; margin: 0; }
+        .repo-card { 
+            margin-bottom: 20px; 
+            padding: 20px; 
+            background: var(--card-bg);
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        a { font-weight: 600; text-decoration: none; color: #0366d6; font-size: 18px; }
-        a:hover { text-decoration: underline; }
-        p { margin: 5px 0 0 0; color: #586069; font-size: 14px; }
+        .repo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .repo-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+        .repo-title { font-size: 20px; font-weight: 600; text-decoration: none; color: var(--link-color); }
+        .repo-title:hover { text-decoration: underline; }
+        .repo-desc { margin: 10px 0; color: var(--text-muted); font-size: 14px; }
+        
+        /* Badges and Public Metadata Styling */
+        .metadata-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; font-size: 12px; font-weight: 500; }
+        .badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 20px; background-color: #f1f2f4; color: var(--text-main); border: 1px solid var(--border-color); }
+        .badge-lang { background-color: #ddf4ff; color: #0969da; border-color: #b4dfff; }
+        .badge-license { background-color: #dafbe1; color: #1a7f37; border-color: #bcf5c6; }
+        .badge-source { font-size: 12px; margin-left: 8px; color: var(--text-muted); text-decoration: none; }
+        .badge-source:hover { color: var(--link-color); text-decoration: underline; }
+        
+        .date-meta { font-size: 12px; color: var(--text-muted); margin-top: 10px; text-align: right; }
+        .loading { font-size: 16px; color: var(--text-muted); font-style: italic; }
     </style>
 </head>
 <body>
-    <h1>nrupala's Deployed Projects</h1>
-    <ul id="repo-list">Loading deployed websites...</ul>
+    <h1>nrupala's Published Projects</h1>
+    <ul id="repo-list" class="loading">Fetching deployed websites and repository metadata...</ul>
 
     <script>
         const username = 'nrupala'; 
 
         async function fetchPagesRepos() {
             try {
-                // Fetch up to 100 of your public repositories
+                // Fetch up to 100 public repositories sorted by recent updates
                 const response = await fetch(`https://github.com{username}/repos?per_page=100&sort=updated`);
+                if (!response.ok) throw new Error('API limit reached or user not found');
+                
                 const repos = await response.json();
                 const listElement = document.getElementById('repo-list');
                 listElement.innerHTML = '';
+                listElement.classList.remove('loading');
 
-                // Filter for repos that have Pages turned on, excluding this main hub repo
+                // Filter for repos that have Pages active, excluding the main homepage directory itself
                 const pagesRepos = repos.filter(repo => repo.has_pages && repo.name.toLowerCase() !== `${username}.github.io`.toLowerCase());
 
                 if (pagesRepos.length === 0) {
-                    listElement.innerHTML = '<li>No other deployed GitHub Pages sites found yet. Make sure "Pages" is turned on in your other repo settings!</li>';
+                    listElement.innerHTML = '<li class="repo-card">No other published GitHub Pages sites found. Ensure "Pages" deployment is active in your other repository settings!</li>';
                     return;
                 }
 
-                pagesRepos.forEach(repo => {
+                for (const repo of pagesRepos) {
                     const li = document.createElement('li');
-                    const pagesUrl = `https://${username}.github.io/${repo.name}/`;
+                    li.className = 'repo-card';
                     
+                    // Fallback configuration if custom homepage metadata field isn't set
+                    const deployedUrl = repo.homepage || `https://${username}.github.io/${repo.name}/`;
+                    const formattedDate = new Date(repo.updated_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                    
+                    // Construct metadata pills dynamically
+                    let metaBadges = `
+                        <span class="badge">⭐️ ${repo.stargazers_count} Stars</span>
+                        <span class="badge">🍴 ${repo.forks_count} Forks</span>
+                    `;
+                    
+                    if (repo.language) {
+                        metaBadges += `<span class="badge badge-lang">💻 ${repo.language}</span>`;
+                    }
+                    if (repo.license && repo.license.name) {
+                        metaBadges += `<span class="badge badge-license">⚖️ ${repo.license.spdx_id || 'Licensed'}</span>`;
+                    }
+
                     li.innerHTML = `
-                        <a href="${pagesUrl}" target="_blank">🔗 ${repo.name}</a>
-                        <p>${repo.description || 'No description provided for this repository.'}</p>
+                        <div class="repo-header">
+                            <div>
+                                <a href="${deployedUrl}" class="repo-title" target="_blank">🔗 ${repo.name}</a>
+                                <a href="${repo.html_url}" class="badge-source" target="_blank">(View Source Code)</a>
+                            </div>
+                        </div>
+                        <p class="repo-desc">${repo.description || 'No project summary provided. Add a description in the repo settings to display it here.'}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                            <div class="metadata-container">${metaBadges}</div>
+                            <div class="date-meta">Updated: ${formattedDate}</div>
+                        </div>
                     `;
                     listElement.appendChild(li);
-                });
+                }
             } catch (error) {
-                document.getElementById('repo-list').innerHTML = '<li>Error loading repositories. Please try again later.</li>';
+                document.getElementById('repo-list').innerHTML = '<li class="repo-card">Error loading data. Public GitHub API limits may be temporarily reached for your current IP address.</li>';
                 console.error(error);
             }
         }
