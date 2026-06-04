@@ -1,10 +1,14 @@
 const fs = require('fs');
+const githubToolkit = require('@actions/github');
 
-module.exports = async ({ github }) => {
+async function main() {
   const username = 'nrupala';
   
-  // High-priority internal server call to get all your repositories
-  const response = await github.rest.repos.listForAuthenticatedUser({
+  // Uses the security environment token to communicate safely with high priority
+  const token = process.env.GITHUB_TOKEN;
+  const octokit = githubToolkit.getOctokit(token);
+  
+  const response = await octokit.rest.repos.listForAuthenticatedUser({
     visibility: 'public',
     sort: 'updated',
     per_page: 100
@@ -14,19 +18,16 @@ module.exports = async ({ github }) => {
     repo.has_pages && repo.name.toLowerCase() !== `${username}.github.io`.toLowerCase()
   );
 
-  // Generate dynamic language dropdown list items
   const languages = [...new Set(allRepos.map(r => r.language).filter(Boolean))];
   let options = '<option value="all">All Languages</option>';
   languages.forEach(l => options += `<option value="${l.toLowerCase()}">${l}</option>`);
 
-  // Loop through repositories to assemble zero-dependency raw HTML layout cards
   let cardsHtml = '';
   allRepos.forEach(repo => {
     const deployedUrl = repo.homepage || `https://${username}.github.io/${repo.name}/`;
     const dateString = new Date(repo.updated_at).toLocaleDateString('en-US', {year:'numeric', month:'short'});
     const activityIdx = Math.max(1, (repo.stargazers_count * 3) + (repo.forks_count * 2) + Math.floor(repo.size / 500));
     
-    // Server-computed graphic mathematical telemetry vectors
     const points = [];
     let base = Math.max(8, (repo.stargazers_count * 4) + (repo.forks_count * 6));
     if (base === 8) base = Math.floor(Math.random() * 12) + 8;
@@ -60,7 +61,6 @@ module.exports = async ({ github }) => {
       </div>`;
   });
 
-  // Final flat HTML output template structure
   const pageTemplate = `<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -121,4 +121,9 @@ module.exports = async ({ github }) => {
   </html>`;
 
   fs.writeFileSync('index.html', pageTemplate);
-};
+}
+
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
