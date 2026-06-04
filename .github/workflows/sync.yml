@@ -23,9 +23,14 @@ jobs:
 
       - name: Fetch and Compile Static HTML Dashboard
         uses: actions/github-script@v7
+        env:
+          WORKSPACE: ${{ github.workspace }}
         with:
           script: |
-            const buildScript = require('./compile.js');
+            const path = require('path');
+            // Dynamically point to the absolute path of your workspace
+            const scriptPath = path.resolve(process.env.WORKSPACE, 'compile.js');
+            const buildScript = require(scriptPath);
             await buildScript({ github, context });
 
       - name: Deploy Flat File changes
