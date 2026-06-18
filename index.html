@@ -3,56 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nrupala | Engineering Portfolio</title>
+    <title>My GitHub Pages Directory</title>
     <style>
-        :root { --bg-color: #0d1117; --card-bg: #161b22; --border-color: #30363d; --text-main: #c9d1d9; --text-muted: #8b949e; --accent-blue: #58a6ff; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 950px; margin: 0 auto; padding: 40px 20px; color: var(--text-main); background-color: var(--bg-color); line-height: 1.6; }
-        h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 5px; }
-        .subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 16px; }
-        .controls-panel { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; }
-        .search-input { flex: 1; min-width: 200px; background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; padding: 10px 15px; border-radius: 6px; font-size: 14px; }
-        .filter-select { background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
-        #repo-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media(min-width: 768px) { #repo-grid { grid-template-columns: 1fr 1fr; } }
-        .repo-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
-        .repo-card.hidden { display: none !important; }
-        .repo-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .repo-title { font-size: 18px; font-weight: 600; text-decoration: none; color: var(--accent-blue); }
-        .source-link { font-size: 12px; color: var(--text-muted); text-decoration: none; }
-        .repo-desc { margin: 12px 0; color: var(--text-muted); font-size: 14px; min-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .stats-panel { background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 10px; margin: 12px 0; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 12px; }
-        .stat-val { font-size: 16px; font-weight: bold; color: #fff; }
-        .stat-lbl { color: var(--text-muted); font-size: 11px; }
-        .graph-container { height: 45px; margin: 10px 0; border-bottom: 1px dashed var(--border-color); }
-        .meta-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
-        .lang-badge { padding: 2px 8px; border-radius: 12px; background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); font-weight: 600; }
-        .date-lbl { color: var(--text-muted); }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f6f8fa; color: #24292f; }
+        h1 { border-bottom: 1px solid #d0d7de; padding-bottom: 10px; }
+        ul { list-style: none; padding: 0; }
+        li { background: #fff; margin: 10px 0; padding: 15px; border: 1px solid #d0d7de; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        a { color: #0969da; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+        .repo-link { font-size: 0.9em; color: #57606a; }
     </style>
 </head>
 <body>
-    <h1>nrupala // Engineering Dashboard</h1>
-    <div class="subtitle">Compiled live portfolio metrics and directory of active web applications.</div>
-    <div class="controls-panel">
-        <input type="text" id="searchBar" class="search-input" placeholder="🔍 Search projects...">
-        <select id="langFilter" class="filter-select"><option value="all">All Languages</option></select>
-    </div>
-    <div id="repo-grid"></div>
-    <script>
-        const searchBar = document.getElementById('searchBar');
-        const langFilter = document.getElementById('langFilter');
-        const cards = document.querySelectorAll('.repo-card');
 
-        function filterData() {
-            const query = searchBar.value.toLowerCase();
-            const selectedLang = langFilter.value;
-            cards.forEach(card => {
-                const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
-                const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
-                card.classList.toggle('hidden', !(matchesSearch && matchesLang));
-            });
+    <h1>My Deployed GitHub Pages Projects</h1>
+    <ul id="repo-list">Loading deployed websites...</ul>
+
+    <script>
+        // FIXED: Explicitly target the first element of the split array to get "nrupala"
+        const username = window.location.hostname.split('.')[0];
+        const repoList = document.getElementById('repo-list');
+
+        async function fetchPages() {
+            try {
+                // Fetches public repositories for the user, sorted by recent activity
+                const response = await fetch(`https://github.com{username}/repos?per_page=100&sort=pushed`);
+                if (!response.ok) throw new Error('Failed to fetch repositories');
+                
+                const repos = await response.json();
+                repoList.innerHTML = ''; // Clear loading text
+
+                // Filter for repositories that explicitly have Pages enabled
+                // Exclude the root portfolio repository itself to avoid an infinite loop
+                const pagesRepos = repos.filter(repo => repo.has_pages && repo.name.toLowerCase() !== `${username}.github.io`.toLowerCase());
+
+                if (pagesRepos.length === 0) {
+                    repoList.innerHTML = '<li>No other GitHub Pages deployments found. Make sure Pages is turned on in your individual repo settings.</li>';
+                    return;
+                }
+
+                pagesRepos.forEach(repo => {
+                    const li = document.createElement('li');
+                    
+                    // GitHub Pages default URL structure: username.github.io/repo-name
+                    const pagesUrl = `https://${username}.github.io/${repo.name}/`;
+                    
+                    li.innerHTML = `
+                        <div>
+                            <a href="${pagesUrl}" target="_blank">${repo.name}</a>
+                            <br>
+                            <span class="repo-link">${repo.description || 'No description provided.'}</span>
+                        </div>
+                        <a href="${repo.html_url}" target="_blank" style="font-size: 0.85em; color: #57606a; font-weight: normal;">[Source Code]</a>
+                    `;
+                    repoList.appendChild(li);
+                });
+            } catch (error) {
+                repoList.innerHTML = `<li style="color: red;">Error loading repositories: ${error.message}</li>`;
+            }
         }
-        searchBar.addEventListener('input', filterData);
-        langFilter.addEventListener('change', filterData);
+
+        fetchPages();
     </script>
 </body>
 </html>
