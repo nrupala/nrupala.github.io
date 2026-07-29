@@ -23,7 +23,6 @@
         .stats-panel { background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 10px; margin: 12px 0; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 12px; }
         .stat-val { font-size: 16px; font-weight: bold; color: #fff; }
         .stat-lbl { color: var(--text-muted); font-size: 11px; }
-        .graph-container { height: 45px; margin: 10px 0; border-bottom: 1px dashed var(--border-color); }
         .meta-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
         .lang-badge { padding: 2px 8px; border-radius: 12px; background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); font-weight: 600; }
         .date-lbl { color: var(--text-muted); }
@@ -34,23 +33,31 @@
     <div class="subtitle">Compiled live portfolio metrics and directory of active web applications.</div>
     <div class="controls-panel">
         <input type="text" id="searchBar" class="search-input" placeholder="🔍 Search projects...">
-        <select id="langFilter" class="filter-select"><option value="all">All Languages</option></select>
+        <select id="langFilter" class="filter-select">
+            <!-- LANG_OPTIONS -->
+        </select>
     </div>
-    <div id="repo-grid"></div>
+
+    <div id="repo-grid">
+        <!-- REPO_CARDS -->
+    </div>
+
     <script>
         const searchBar = document.getElementById('searchBar');
         const langFilter = document.getElementById('langFilter');
-        const cards = document.querySelectorAll('.repo-card');
 
         function filterData() {
-            const query = searchBar.value.toLowerCase();
+            const query = searchBar.value.toLowerCase().trim();
             const selectedLang = langFilter.value;
+            const cards = document.querySelectorAll('.repo-card');
+
             cards.forEach(card => {
                 const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
                 const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
                 card.classList.toggle('hidden', !(matchesSearch && matchesLang));
             });
         }
+
         searchBar.addEventListener('input', filterData);
         langFilter.addEventListener('change', filterData);
     </script>
