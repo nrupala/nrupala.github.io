@@ -27,6 +27,7 @@
         .meta-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
         .lang-badge { padding: 2px 8px; border-radius: 12px; background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); font-weight: 600; }
         .date-lbl { color: var(--text-muted); }
+        .loading { text-align: center; color: var(--text-muted); grid-column: span 2; padding: 40px; }
     </style>
 </head>
 <body>
@@ -34,44 +35,112 @@
     <div class="subtitle">Compiled live portfolio metrics and directory of active web applications.</div>
     <div class="controls-panel">
         <input type="text" id="searchBar" class="search-input" placeholder="🔍 Search projects...">
-        <select id="langFilter" class="filter-select"><option value="all">All Languages</option></select>
+        <select id="langFilter" class="filter-select">
+            <option value="all">All Languages</option>
+        </select>
     </div>
-    <div id="repo-grid">  <div class="repo-card" data-name="" data-desc="production build active." data-lang="config">
-      <div class="repo-header">
-          <a href="" class="repo-title" target="_blank">🌐 </a>
-          <a href="" class="source-link" target="_blank">&lt;/&gt; Source</a>
-      </div>
-      <div class="repo-desc">Production build active.</div>
-      <div class="graph-container">
-          <svg viewBox="0 0 400 45" style="width:100%; height:100%; overflow:visible;">
-              <polyline fill="none" stroke="#7ee787" stroke-width="2" points=" 0,31 66,31 133,31 200,31 266,31 333,31 400,31" />
-          </svg>
-      </div>
-      <div class="stats-panel">
-          <div><div class="stat-val">★ 0</div><div class="stat-lbl">Stars</div></div>
-          <div><div class="stat-val">⑂ 0</div><div class="stat-lbl">Forks</div></div>
-          <div><div class="stat-val">1</div><div class="stat-lbl">Activity Index</div></div>
-      </div>
-      <div class="meta-footer">
-          <span class="lang-badge">Config</span>
-          <span class="date-lbl">Pushed: Recent</span>
-      </div>
-  </div></div>
+    <div id="repo-grid">
+        <div class="loading">Loading repositories from GitHub...</div>
+    </div>
+
     <script>
-        const searchBar = document.getElementById('searchBar');
-        const langFilter = document.getElementById('langFilter');
-        const cards = document.querySelectorAll('.repo-card');
-        function filterData() {
-            const query = searchBar.value.toLowerCase();
-            const selectedLang = langFilter.value;
-            cards.forEach(card => {
-                const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
-                const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
-                card.classList.toggle('hidden', !(matchesSearch && matchesLang));
-            });
+        async function loadRepos() {
+            try {
+                const response = await fetch('https://api.github.com/users/nrupala/repos?per_page=100&sort=updated');
+                if (!response.ok) throw new Error('Failed to fetch repositories');
+                const repos = await response.json();
+
+                const grid = document.getElementById('repo-grid');
+                const langFilter = document.getElementById('langFilter');
+                grid.innerHTML = '';
+
+                const languages = new Set();
+                let cardsHtml = '';
+
+                repos.forEach(repo => {
+                    if (repo.name.toLowerCase() === 'nrupala.github.io') return;
+
+                    const name = repo.name;
+                    const desc = repo.description || "Production build active.";
+                    const lang = repo.language || "Config";
+                    const stars = repo.stargazers_count || 0;
+                    const forks = repo.forks_count || 0;
+                    const size = repo.size || 0;
+                    const url = repo.homepage || repo.html_url;
+                    const src = repo.html_url;
+                    const date = new Date(repo.updated_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+                    if (repo.language) languages.add(repo.language);
+
+                    const score = (stars * 3) + (forks * 2) + Math.floor(size / 500) + 1;
+                    
+                    // Simple SVG sparkline points generator
+                    const base = Math.max(8, (stars * 4) + (forks * 6));
+                    let points = '';
+                    for (let i = 0; i <= 6; i++) {
+                        let x = Math.floor((i * 400) / 6);
+                        let y = Math.max(5, Math.min(40, 42 - Math.floor(base * 7 / 10)));
+                        points += ` ${x},${y}`;
+                    }
+
+                    cardsHtml += `
+                    <div class="repo-card" data-name="${name.toLowerCase()}" data-desc="${desc.toLowerCase()}" data-lang="${lang.toLowerCase()}">
+                        <div class="repo-header">
+                            <a href="${url}" class="repo-title" target="_blank">🌐 ${name}</a>
+                            <a href="${src}" class="source-link" target="_blank">&lt;/&gt; Source</a>
+                        </div>
+                        <div class="repo-desc">${desc}</div>
+                        <div class="graph-container">
+                            <svg viewBox="0 0 400 45" style="width:100%; height:100%; overflow:visible;">
+                                <polyline fill="none" stroke="#7ee787" stroke-width="2" points="${points}" />
+                            </svg>
+                        </div>
+                        <div class="stats-panel">
+                            <div><div class="stat-val">★ ${stars}</div><div class="stat-lbl">Stars</div></div>
+                            <div><div class="stat-val">⑂ ${forks}</div><div class="stat-lbl">Forks</div></div>
+                            <div><div class="stat-val">${score}</div><div class="stat-lbl">Activity Index</div></div>
+                        </div>
+                        <div class="meta-footer">
+                            <span class="lang-badge">${lang}</span>
+                            <span class="date-lbl">Pushed: ${date}</span>
+                        </div>
+                    </div>`;
+                });
+
+                grid.innerHTML = cardsHtml || '<div class="loading">No public repositories found.</div>';
+
+                // Populate language dropdown
+                languages.forEach(l => {
+                    const opt = document.createElement('option');
+                    opt.value = l.toLowerCase();
+                    opt.textContent = l;
+                    langFilter.appendChild(opt);
+                });
+
+                initFilters();
+            } catch (err) {
+                document.getElementById('repo-grid').innerHTML = `<div class="loading">Error loading repositories. Please try again later.</div>`;
+            }
         }
-        searchBar.addEventListener('input', filterData);
-        langFilter.addEventListener('change', filterData);
+
+        function initFilters() {
+            const searchBar = document.getElementById('searchBar');
+            const langFilter = document.getElementById('langFilter');
+            
+            function filterData() {
+                const query = searchBar.value.toLowerCase();
+                const selectedLang = langFilter.value;
+                document.querySelectorAll('.repo-card').forEach(card => {
+                    const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
+                    const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
+                    card.classList.toggle('hidden', !(matchesSearch && matchesLang));
+                });
+            }
+            searchBar.addEventListener('input', filterData);
+            langFilter.addEventListener('change', filterData);
+        }
+
+        loadRepos();
     </script>
 </body>
 </html>
