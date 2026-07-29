@@ -23,10 +23,10 @@
         .stats-panel { background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 10px; margin: 12px 0; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 12px; }
         .stat-val { font-size: 16px; font-weight: bold; color: #fff; }
         .stat-lbl { color: var(--text-muted); font-size: 11px; }
+        .graph-container { height: 45px; margin: 10px 0; border-bottom: 1px dashed var(--border-color); }
         .meta-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
         .lang-badge { padding: 2px 8px; border-radius: 12px; background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); font-weight: 600; }
         .date-lbl { color: var(--text-muted); }
-        .status-msg { grid-column: 1 / -1; color: var(--text-muted); text-align: center; padding: 40px 0; }
     </style>
 </head>
 <body>
@@ -36,92 +36,23 @@
         <input type="text" id="searchBar" class="search-input" placeholder="🔍 Search projects...">
         <select id="langFilter" class="filter-select"><option value="all">All Languages</option></select>
     </div>
-    <div id="repo-grid">
-        <div class="status-msg">Loading repositories...</div>
-    </div>
+    <div id="repo-grid"></div>
     <script>
-        const USERNAME = 'nrupala';
         const searchBar = document.getElementById('searchBar');
         const langFilter = document.getElementById('langFilter');
-        const repoGrid = document.getElementById('repo-grid');
-
-        async function loadRepositories() {
-            try {
-                const response = await fetch(`https://api.github.com/users/${USERNAME}/repos?sort=updated&per_page=100`, {
-                    headers: { 'Accept': 'application/vnd.github.v3+json' }
-                });
-
-                if (!response.ok) throw new Error(`API Error ${response.status}`);
-
-                const repos = await response.json();
-                const publicRepos = repos.filter(repo => !repo.fork);
-
-                if (publicRepos.length === 0) {
-                    repoGrid.innerHTML = `<div class="status-msg">No public repositories found.</div>`;
-                    return;
-                }
-
-                const languages = new Set();
-                repoGrid.innerHTML = publicRepos.map(repo => {
-                    const lang = repo.language || 'Unspecified';
-                    if (repo.language) languages.add(repo.language);
-                    const name = repo.name;
-                    const desc = repo.description || 'No description provided.';
-                    const date = new Date(repo.updated_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-
-                    return `
-                        <div class="repo-card" data-name="${name.toLowerCase()}" data-desc="${desc.toLowerCase()}" data-lang="${lang}">
-                            <div>
-                                <div class="repo-header">
-                                    <a class="repo-title" href="${repo.html_url}" target="_blank" rel="noopener">${name}</a>
-                                    <a class="source-link" href="${repo.html_url}" target="_blank" rel="noopener">GitHub ↗</a>
-                                </div>
-                                <div class="repo-desc">${desc}</div>
-                            </div>
-                            <div>
-                                <div class="stats-panel">
-                                    <div><div class="stat-val">⭐ ${repo.stargazers_count}</div><div class="stat-lbl">Stars</div></div>
-                                    <div><div class="stat-val">🍴 ${repo.forks_count}</div><div class="stat-lbl">Forks</div></div>
-                                    <div><div class="stat-val">📦 ${(repo.size / 1024).toFixed(1)}M</div><div class="stat-lbl">Size</div></div>
-                                </div>
-                                <div class="meta-footer">
-                                    <span class="lang-badge">${lang}</span>
-                                    <span class="date-lbl">Updated ${date}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                languages.forEach(lang => {
-                    const opt = document.createElement('option');
-                    opt.value = lang;
-                    opt.textContent = lang;
-                    langFilter.appendChild(opt);
-                });
-
-            } catch (err) {
-                console.error(err);
-                repoGrid.innerHTML = `<div class="status-msg">Failed to load repositories. Please refresh or check console.</div>`;
-            }
-        }
+        const cards = document.querySelectorAll('.repo-card');
 
         function filterData() {
-            const query = searchBar.value.toLowerCase().trim();
+            const query = searchBar.value.toLowerCase();
             const selectedLang = langFilter.value;
-            const cards = document.querySelectorAll('.repo-card');
-
             cards.forEach(card => {
                 const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
                 const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
                 card.classList.toggle('hidden', !(matchesSearch && matchesLang));
             });
         }
-
         searchBar.addEventListener('input', filterData);
         langFilter.addEventListener('change', filterData);
-
-        loadRepositories();
     </script>
 </body>
 </html>
