@@ -4,7 +4,13 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 0 * * *' # Auto-update daily at midnight
+    - cron: '0 0 * * *'
+
+# Grant the workflow explicit write permissions to repo contents and pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -12,18 +18,20 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-style: '20'
+          node-version: '20'
 
       - name: Build Static HTML
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node build.js
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
