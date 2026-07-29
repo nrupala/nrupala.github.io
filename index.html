@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nrupala | Engineering Portfolio</title>
+    <style>
+        :root { --bg-color: #0d1117; --card-bg: #161b22; --border-color: #30363d; --text-main: #c9d1d9; --text-muted: #8b949e; --accent-blue: #58a6ff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 950px; margin: 0 auto; padding: 40px 20px; color: var(--text-main); background-color: var(--bg-color); line-height: 1.6; }
+        h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+        .subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 16px; }
+        .controls-panel { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; }
+        .search-input { flex: 1; min-width: 200px; background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; padding: 10px 15px; border-radius: 6px; font-size: 14px; }
+        .filter-select { background: var(--bg-color); border: 1px solid var(--border-color); color: #fff; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
+        #repo-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(min-width: 768px) { #repo-grid { grid-template-columns: 1fr 1fr; } }
+        .repo-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .repo-card.hidden { display: none !important; }
+        .repo-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .repo-title { font-size: 18px; font-weight: 600; text-decoration: none; color: var(--accent-blue); }
+        .source-link { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+        .repo-desc { margin: 12px 0; color: var(--text-muted); font-size: 14px; min-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .stats-panel { background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 10px; margin: 12px 0; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 12px; }
+        .stat-val { font-size: 16px; font-weight: bold; color: #fff; }
+        .stat-lbl { color: var(--text-muted); font-size: 11px; }
+        .meta-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
+        .lang-badge { padding: 2px 8px; border-radius: 12px; background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); font-weight: 600; }
+        .date-lbl { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <h1>nrupala // Engineering Dashboard</h1>
+    <div class="subtitle">Compiled live portfolio metrics and directory of active web applications.</div>
+    <div class="controls-panel">
+        <input type="text" id="searchBar" class="search-input" placeholder="🔍 Search projects...">
+        <select id="langFilter" class="filter-select">
+            <option value="all">All Languages</option>
+<option value="HTML">HTML</option>
+<option value="TypeScript">TypeScript</option>
+<option value="Python">Python</option>
+<option value="Rust">Rust</option>
+<option value="JavaScript">JavaScript</option>
+<option value="Makefile">Makefile</option>
+<option value="Go">Go</option>
+<option value="Java">Java</option>
+<option value="Shell">Shell</option>
+        </select>
+    </div>
+
+    <div id="repo-grid">
+        
+        <div class="repo-card" data-name="nrupala.github.io" data-desc="public facing portfolio page of all repos" data-lang="HTML">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/nrupala.github.io" target="_blank" rel="noopener">nrupala.github.io</a>
+              <a class="source-link" href="https://github.com/nrupala/nrupala.github.io" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Public facing portfolio Page of all repos</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">HTML</span>
+              <span class="date-lbl">Updated Jul 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="vault-tracker" data-desc="zero trust self-contained, offline, vault based expense tracker (ledger), habit tracker, notes engine, and tasklist with reminder notification." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/vault-tracker" target="_blank" rel="noopener">vault-tracker</a>
+              <a class="source-link" href="https://github.com/nrupala/vault-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Zero trust self-contained, offline, vault based expense tracker (ledger), habit tracker, notes engine, and tasklist with reminder notification.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 1</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 2.1M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Jul 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="aetheris" data-desc="aetheris - sovereign ai-native personal cloud" data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/aetheris" target="_blank" rel="noopener">aetheris</a>
+              <a class="source-link" href="https://github.com/nrupala/aetheris" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Aetheris - Sovereign AI-Native Personal Cloud</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 1</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 18.8M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Jul 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="mymilo" data-desc="no description provided." data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/mymilo" target="_blank" rel="noopener">mymilo</a>
+              <a class="source-link" href="https://github.com/nrupala/mymilo" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated Jul 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="guardian-mesh" data-desc="guardian mesh " data-lang="Rust">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/guardian-mesh" target="_blank" rel="noopener">guardian-mesh</a>
+              <a class="source-link" href="https://github.com/nrupala/guardian-mesh" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Guardian Mesh </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.2M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Rust</span>
+              <span class="date-lbl">Updated Jun 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="pae" data-desc="personal analytics engine (pae)- institutional-grade financial analytics for individuals. zero-knowledge encryption. 11 aladdin-parity modules. tool calculates, user decides. agpl-3.0." data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/pae" target="_blank" rel="noopener">pae</a>
+              <a class="source-link" href="https://github.com/nrupala/pae" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Personal Analytics Engine (PAE)- Institutional-grade financial analytics for individuals. Zero-knowledge encryption. 11 Aladdin-parity modules. Tool calculates, user decides. AGPL-3.0.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.3M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Jun 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="codec" data-desc="no description provided." data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/codec" target="_blank" rel="noopener">codec</a>
+              <a class="source-link" href="https://github.com/nrupala/codec" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.1M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Jun 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="localragcoder" data-desc="no description provided." data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/localragcoder" target="_blank" rel="noopener">localragcoder</a>
+              <a class="source-link" href="https://github.com/nrupala/localragcoder" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.1M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="agentic-os" data-desc="setup for agent driven code generation environment " data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/agentic-os" target="_blank" rel="noopener">agentic-os</a>
+              <a class="source-link" href="https://github.com/nrupala/agentic-os" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Setup for agent driven code generation environment </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 1</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.4M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="nrupala" data-desc="electrical engineer | dev | automation enthusiast | thinking in systems | " data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/nrupala" target="_blank" rel="noopener">nrupala</a>
+              <a class="source-link" href="https://github.com/nrupala/nrupala" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Electrical Engineer | Dev | Automation Enthusiast | Thinking in Systems | </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="localforge" data-desc="local-first ai development platform — vs code extension · cli · web ui. multi-agent workflow: planner→writer→reviewer→tester. proudly made in canada." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/LocalForge" target="_blank" rel="noopener">LocalForge</a>
+              <a class="source-link" href="https://github.com/nrupala/LocalForge" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Local-first AI development platform — VS Code extension · CLI · Web UI. Multi-agent workflow: Planner→Writer→Reviewer→Tester. Proudly Made in Canada.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.1M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="ai-evolution-timeline" data-desc="an interactive ai‑evolution timeline from transformers (2017) to agentic ai (2025+).  a static web app using plotly + html/js, " data-lang="JavaScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/ai-evolution-timeline" target="_blank" rel="noopener">ai-evolution-timeline</a>
+              <a class="source-link" href="https://github.com/nrupala/ai-evolution-timeline" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">An interactive AI‑evolution timeline from Transformers (2017) to agentic AI (2025+).  A static web app using Plotly + HTML/JS, </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.5M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">JavaScript</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="zkpc-platform" data-desc="zero-knowledge productivity cloud - main platform monorepo" data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/zkpc-platform" target="_blank" rel="noopener">zkpc-platform</a>
+              <a class="source-link" href="https://github.com/nrupala/zkpc-platform" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Zero-Knowledge Productivity Cloud - Main Platform Monorepo</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="agent-project-builder" data-desc="agent to build a project or code via interactive commands on a localized llm nlp" data-lang="JavaScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/agent-project-builder" target="_blank" rel="noopener">agent-project-builder</a>
+              <a class="source-link" href="https://github.com/nrupala/agent-project-builder" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Agent to build a project or code via interactive commands on a localized LLM NLP</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 44.8M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">JavaScript</span>
+              <span class="date-lbl">Updated May 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="appdocstudio" data-desc="no description provided." data-lang="HTML">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/appdocstudio" target="_blank" rel="noopener">appdocstudio</a>
+              <a class="source-link" href="https://github.com/nrupala/appdocstudio" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">HTML</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="checkverify" data-desc="no description provided." data-lang="HTML">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/checkverify" target="_blank" rel="noopener">checkverify</a>
+              <a class="source-link" href="https://github.com/nrupala/checkverify" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">HTML</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="checkqr" data-desc="no description provided." data-lang="HTML">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/checkqr" target="_blank" rel="noopener">checkqr</a>
+              <a class="source-link" href="https://github.com/nrupala/checkqr" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">HTML</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="checkanchor" data-desc="no description provided." data-lang="HTML">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/checkanchor" target="_blank" rel="noopener">checkanchor</a>
+              <a class="source-link" href="https://github.com/nrupala/checkanchor" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">HTML</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="argent" data-desc="zero-knowledge autonomous coding agent in rust with wasm sandbox and local gguf llm integration" data-lang="Makefile">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/argent" target="_blank" rel="noopener">argent</a>
+              <a class="source-link" href="https://github.com/nrupala/argent" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Zero-knowledge autonomous coding agent in Rust with WASM sandbox and local GGUF LLM integration</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 42.9M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Makefile</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="zerok-cli" data-desc="zerok go cli - zero-knowledge encrypted vault command-line tool" data-lang="Go">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/zerok-cli" target="_blank" rel="noopener">zerok-cli</a>
+              <a class="source-link" href="https://github.com/nrupala/zerok-cli" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Zerok Go CLI - Zero-knowledge encrypted vault command-line tool</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Go</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="zerok-rs" data-desc="zerok rust cli - high-performance zero-knowledge vault in rust" data-lang="Rust">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/zerok-rs" target="_blank" rel="noopener">zerok-rs</a>
+              <a class="source-link" href="https://github.com/nrupala/zerok-rs" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Zerok Rust CLI - High-performance zero-knowledge vault in Rust</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Rust</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="zerok-container" data-desc="container with security, sovereignity, encryption, zero-trust, zero-knoweldge existence, not another docker." data-lang="JavaScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/zerok-container" target="_blank" rel="noopener">zerok-container</a>
+              <a class="source-link" href="https://github.com/nrupala/zerok-container" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Container with security, sovereignity, encryption, zero-trust, zero-knoweldge existence, not another docker.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.5M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">JavaScript</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="pwa-creator" data-desc="minimal pwa template - no frameworks, everything from scratch" data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/pwa-creator" target="_blank" rel="noopener">pwa-creator</a>
+              <a class="source-link" href="https://github.com/nrupala/pwa-creator" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Minimal PWA template - no frameworks, everything from scratch</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.4M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="apk-creator" data-desc="simplified android apk builder - downloads gradle directly, handles version control" data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/apk-creator" target="_blank" rel="noopener">apk-creator</a>
+              <a class="source-link" href="https://github.com/nrupala/apk-creator" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Simplified Android APK builder - downloads Gradle directly, handles version control</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.4M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="autocoder" data-desc="autocoder - autonomous coding agent with local gguf engine" data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/autocoder" target="_blank" rel="noopener">autocoder</a>
+              <a class="source-link" href="https://github.com/nrupala/autocoder" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">AutoCoder - autonomous coding agent with local GGUF engine</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.2M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="axiomcode" data-desc="axiomcode converts natural language descriptions of algorithms into mathematically proven-correct code in python and c. every generated artifact comes with a cryptographic certificate of verification that can be independently audited." data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/axiomcode" target="_blank" rel="noopener">axiomcode</a>
+              <a class="source-link" href="https://github.com/nrupala/axiomcode" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">AxiomCode converts natural language descriptions of algorithms into mathematically proven-correct code in Python and C. Every generated artifact comes with a cryptographic certificate of verification that can be independently audited.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.2M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="nanoclaw" data-desc="no description provided." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/nanoclaw" target="_blank" rel="noopener">nanoclaw</a>
+              <a class="source-link" href="https://github.com/nrupala/nanoclaw" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 11.3M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="reliable-engineering-agent" data-desc="a disciplined ai coding agent with web and cli interfaces" data-lang="JavaScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/reliable-engineering-agent" target="_blank" rel="noopener">reliable-engineering-agent</a>
+              <a class="source-link" href="https://github.com/nrupala/reliable-engineering-agent" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A disciplined AI coding agent with web and CLI interfaces</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.2M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">JavaScript</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="research_agent_ai" data-desc="a modular, llm‑powered equity research engine that generates: - **long‑term 7‑step research reports**   - **tactical near‑term 7‑step reports**   - **comprehensive hybrid reports** " data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/Research_Agent_AI" target="_blank" rel="noopener">Research_Agent_AI</a>
+              <a class="source-link" href="https://github.com/nrupala/Research_Agent_AI" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A modular, LLM‑powered equity research engine that generates: - **Long‑Term 7‑Step Research Reports**   - **Tactical Near‑Term 7‑Step Reports**   - **Comprehensive Hybrid Reports** </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="sllm" data-desc="evaluation of a self-learning large language model - research" data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/sllm" target="_blank" rel="noopener">sllm</a>
+              <a class="source-link" href="https://github.com/nrupala/sllm" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Evaluation of a Self-learning Large language model - research</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 1</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.2M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Apr 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="simplicity" data-desc="user owned immutable, portable, secure knowledge graph that provides personalized intelligence that is their individual portable abstraction. " data-lang="Java">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/simplicity" target="_blank" rel="noopener">simplicity</a>
+              <a class="source-link" href="https://github.com/nrupala/simplicity" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">User owned immutable, portable, secure knowledge graph that provides personalized intelligence that is their individual portable abstraction. </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 1.1M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Java</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="relay_sim" data-desc="relays fault simulation engine for training and understanding on power system protection and faults" data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/relay_sim" target="_blank" rel="noopener">relay_sim</a>
+              <a class="source-link" href="https://github.com/nrupala/relay_sim" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Relays fault simulation engine for training and understanding on power system protection and faults</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.7M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="vault-ledger" data-desc="a zero trust zero knowledge self contained ledger for expense and income tracking. it is secure and isolated from advertising ecosystem. this is a mini-app of vault-tracker." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/vault-ledger" target="_blank" rel="noopener">vault-ledger</a>
+              <a class="source-link" href="https://github.com/nrupala/vault-ledger" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A Zero trust zero knowledge self contained ledger for expense and income tracking. It is secure and isolated from advertising ecosystem. This is a mini-app of Vault-Tracker.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 1.6M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="vault-habits" data-desc="a zero trust zero knowledge self contained habit tracker. it is secure and isolated from advertising ecosystem. this is a mini-app of vault-tracker." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/vault-habits" target="_blank" rel="noopener">vault-habits</a>
+              <a class="source-link" href="https://github.com/nrupala/vault-habits" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A Zero trust zero knowledge self contained Habit tracker. It is secure and isolated from advertising ecosystem. This is a mini-app of Vault-Tracker.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 1.6M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="vault-notes" data-desc="a zero trust zero knowledge self contained notes taking app. it is secure and isolated from advertising ecosystem. this is a mini-app of vault-tracker." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/vault-notes" target="_blank" rel="noopener">vault-notes</a>
+              <a class="source-link" href="https://github.com/nrupala/vault-notes" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A Zero trust zero knowledge self contained notes taking app. It is secure and isolated from advertising ecosystem. This is a mini-app of Vault-Tracker.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 1.7M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="vault-tasks" data-desc="a zero trust zero knowledge self contained task list that is secure and isolated from advertising ecosystem. this is a mini-app of vault-tracker." data-lang="TypeScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/vault-tasks" target="_blank" rel="noopener">vault-tasks</a>
+              <a class="source-link" href="https://github.com/nrupala/vault-tasks" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A Zero trust zero knowledge self contained task list that is secure and isolated from advertising ecosystem. This is a mini-app of Vault-Tracker.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 1.6M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">TypeScript</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="multi-cloud-rag-free" data-desc="multi-cloud free tier rag training platform  oracle 24gb/400gb + gcp/azure/aws micros; k8s-federated haystack/milvus/ollama" data-lang="Shell">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/multi-cloud-rag-free" target="_blank" rel="noopener">multi-cloud-rag-free</a>
+              <a class="source-link" href="https://github.com/nrupala/multi-cloud-rag-free" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Multi-Cloud Free Tier RAG Training Platform  Oracle 24GB/400GB + GCP/Azure/AWS micros; K8s-federated Haystack/Milvus/Ollama</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Shell</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="mykey-mobile" data-desc="nist-compliant zero-trust vault 🇨🇦 password manager mobile edition" data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/mykey-mobile" target="_blank" rel="noopener">mykey-mobile</a>
+              <a class="source-link" href="https://github.com/nrupala/mykey-mobile" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">NIST-Compliant Zero-Trust Vault 🇨🇦 Password Manager Mobile Edition</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="task-habit-tracker" data-desc="standalone localized task and habit tracker, with encrypted backup and import options. " data-lang="HTML">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/task-habit-tracker" target="_blank" rel="noopener">task-habit-tracker</a>
+              <a class="source-link" href="https://github.com/nrupala/task-habit-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">Standalone localized task and habit tracker, with encrypted backup and import options. </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 1</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.3M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">HTML</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="mykey" data-desc="a zero-trust password manager. a nist/cisa compliant canadian vault v1.0. 🍁 built in canada 🍁 " data-lang="Python">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/mykey" target="_blank" rel="noopener">mykey</a>
+              <a class="source-link" href="https://github.com/nrupala/mykey" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A zero-trust password manager. A NIST/CISA Compliant Canadian Vault v1.0. 🍁 Built in Canada 🍁 </div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Python</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="knowledge_app" data-desc="a lightweight, offline‑first **single‑page web app** for: 1) documenting learning,   2) building a reusable knowledge base, and   3) tracking issues—   with **json storage (indexeddb)**, **print‑friendly outputs**, and **exports to excel, onenote, access, and sql**." data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/Knowledge_app" target="_blank" rel="noopener">Knowledge_app</a>
+              <a class="source-link" href="https://github.com/nrupala/Knowledge_app" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">A lightweight, offline‑first **single‑page web app** for: 1) Documenting learning,   2) Building a reusable knowledge base, and   3) Tracking issues—   with **JSON storage (IndexedDB)**, **print‑friendly outputs**, and **exports to Excel, OneNote, Access, and SQL**.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated Mar 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="hello-world-na2024" data-desc="this repository is for practicing the github flow as per github docs at link: https://docs.github.com/en/get-started/start-your-journey/hello-world" data-lang="Unspecified">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/hello-world-na2024" target="_blank" rel="noopener">hello-world-na2024</a>
+              <a class="source-link" href="https://github.com/nrupala/hello-world-na2024" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">This repository is for practicing the GitHub Flow as per Github Docs at link: https://docs.github.com/en/get-started/start-your-journey/hello-world</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.0M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">Unspecified</span>
+              <span class="date-lbl">Updated Apr 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="repo-card" data-name="covid19" data-desc="no description provided." data-lang="JavaScript">
+          <div>
+            <div class="repo-header">
+              <a class="repo-title" href="https://github.com/nrupala/Covid19" target="_blank" rel="noopener">Covid19</a>
+              <a class="source-link" href="https://github.com/nrupala/Covid19" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <div class="repo-desc">No description provided.</div>
+          </div>
+          <div>
+            <div class="stats-panel">
+              <div><div class="stat-val">⭐ 0</div><div class="stat-lbl">Stars</div></div>
+              <div><div class="stat-val">🍴 0</div><div class="stat-lbl">Forks</div></div>
+              <div><div class="stat-val">📦 0.1M</div><div class="stat-lbl">Size</div></div>
+            </div>
+            <div class="meta-footer">
+              <span class="lang-badge">JavaScript</span>
+              <span class="date-lbl">Updated May 2021</span>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <script>
+        const searchBar = document.getElementById('searchBar');
+        const langFilter = document.getElementById('langFilter');
+
+        function filterData() {
+            const query = searchBar.value.toLowerCase().trim();
+            const selectedLang = langFilter.value;
+            const cards = document.querySelectorAll('.repo-card');
+
+            cards.forEach(card => {
+                const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
+                const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
+                card.classList.toggle('hidden', !(matchesSearch && matchesLang));
+            });
+        }
+
+        searchBar.addEventListener('input', filterData);
+        langFilter.addEventListener('change', filterData);
+    </script>
+</body>
+</html>
