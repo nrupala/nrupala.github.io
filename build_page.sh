@@ -3,7 +3,7 @@
 # Parse JSON layout configurations using standard JQ parameters
 CARDS_HTML=""
 LANG_OPTIONS="<option value=\"all\">All Languages</option>"
-UNIQUE_LANGS=$(jq -r '.[] | select(.has_pages == true and (.name | ascii_lowercase) != "nrupala.github.io") | .language' repos.json | sort -u | grep -v "null")
+UNIQUE_LANGS=$(jq -r '.[] | select((.name | ascii_lowercase) != "nrupala.github.io") | .language' repos.json | sort -u | grep -v "null")
 
 for lang in $UNIQUE_LANGS; do
   LANG_OPTIONS="$LANG_OPTIONS<option value=\"${lang,,}\">$lang</option>"
@@ -22,7 +22,7 @@ while read -r repo; do
   URL=$(echo "$repo" | jq -r '.homepage // empty')
   SRC=$(echo "$repo" | jq -r '.html_url')
   DATE=$(date -d "$(echo "$repo" | jq -r '.updated_at')" +"%b %Y" 2>/dev/null || echo "Recent")
-
+   
   if [ -z "$URL" ]; then
     URL="https://github.io"
   fi
@@ -64,7 +64,7 @@ while read -r repo; do
           <span class=\"date-lbl\">Pushed: $DATE</span>
       </div>
   </div>"
-done < <(jq -c '.[] | select(.has_pages == true and (.name | ascii_lowercase) != "nrupala.github.io")' repos.json)
+ done < <(jq -c '.[] | select((.name | ascii_lowercase) != "nrupala.github.io")' repos.json)
 
 # Assemble flat structural template page code
 cat <<EOF > index.html
