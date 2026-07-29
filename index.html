@@ -42,14 +42,75 @@
         const langFilter = document.getElementById('langFilter');
         const cards = document.querySelectorAll('.repo-card');
 
-        function filterData() {
-            const query = searchBar.value.toLowerCase();
-            const selectedLang = langFilter.value;
-            cards.forEach(card => {
-                const matchesSearch = card.getAttribute('data-name').includes(query) || card.getAttribute('data-desc').includes(query);
-                const matchesLang = selectedLang === 'all' || card.getAttribute('data-lang') === selectedLang;
-                card.classList.toggle('hidden', !(matchesSearch && matchesLang));
-            });
+                const grid = document.getElementById('repo-grid');
+                const langFilter = document.getElementById('langFilter');
+                grid.innerHTML = '';
+
+                const languages = new Set();
+                let cardsHtml = '';
+
+                repos.forEach(repo => {
+                    if (repo.name.toLowerCase() === 'nrupala.github.io') return;
+
+                    const name = repo.name;
+                    const desc = repo.description || "Production build active.";
+                    const lang = repo.language || "Config";
+                    const stars = repo.stargazers_count || 0;
+                    const forks = repo.forks_count || 0;
+                    const size = repo.size || 0;
+                    const url = repo.homepage || repo.html_url;
+                    const src = repo.html_url;
+                    const date = new Date(repo.updated_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+                    if (repo.language) languages.add(repo.language);
+
+                    const score = (stars * 3) + (forks * 2) + Math.floor(size / 500) + 1;
+                    
+                    const base = Math.max(8, (stars * 4) + (forks * 6));
+                    let points = '';
+                    for (let i = 0; i <= 6; i++) {
+                        let x = Math.floor((i * 400) / 6);
+                        let y = Math.max(5, Math.min(40, 42 - Math.floor(base * 7 / 10)));
+                        points += ` ${x},${y}`;
+                    }
+
+                    cardsHtml += `
+                    <div class="repo-card" data-name="${name.toLowerCase()}" data-desc="${desc.toLowerCase()}" data-lang="${lang.toLowerCase()}">
+                        <div class="repo-header">
+                            <a href="${url}" class="repo-title" target="_blank">🌐 ${name}</a>
+                            <a href="${src}" class="source-link" target="_blank">&lt;/&gt; Source</a>
+                        </div>
+                        <div class="repo-desc">${desc}</div>
+                        <div class="graph-container">
+                            <svg viewBox="0 0 400 45" style="width:100%; height:100%; overflow:visible;">
+                                <polyline fill="none" stroke="#7ee787" stroke-width="2" points="${points}" />
+                            </svg>
+                        </div>
+                        <div class="stats-panel">
+                            <div><div class="stat-val">★ ${stars}</div><div class="stat-lbl">Stars</div></div>
+                            <div><div class="stat-val">⑂ ${forks}</div><div class="stat-lbl">Forks</div></div>
+                            <div><div class="stat-val">${score}</div><div class="stat-lbl">Activity Index</div></div>
+                        </div>
+                        <div class="meta-footer">
+                            <span class="lang-badge">${lang}</span>
+                            <span class="date-lbl">Pushed: ${date}</span>
+                        </div>
+                    </div>`;
+                });
+
+                grid.innerHTML = cardsHtml || '<div class="loading">No public repositories found.</div>';
+
+                languages.forEach(l => {
+                    const opt = document.createElement('option');
+                    opt.value = l.toLowerCase();
+                    opt.textContent = l;
+                    langFilter.appendChild(opt);
+                });
+
+                initFilters();
+            } catch (err) {
+                document.getElementById('repo-grid').innerHTML = `<div class="loading">Error loading repositories. Please try again later.</div>`;
+            }
         }
         searchBar.addEventListener('input', filterData);
         langFilter.addEventListener('change', filterData);
