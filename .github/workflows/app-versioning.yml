@@ -1,0 +1,39 @@
+name: Version guard + release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+      - "apk-v*"
+
+permissions:
+  contents: write # needed to publish the GitHub Release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify tag matches version source (standard)
+        if: github.ref_type == 'tag'
+        run: |
+          TAG_VER="${GITHUB_REF_NAME#apk-v}"; TAG_VER="${TAG_VER#v}"
+          PKG_VER="$(tr -d '[:space:]' < VERSION)"
+          if [ "$TAG_VER" != "$PKG_VER" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} (=${TAG_VER}) does not match version ${PKG_VER}. Run scripts/bump-version.mjs and re-tag."
+            exit 1
+          fi
+          echo "version guard OK: ${PKG_VER}"
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
