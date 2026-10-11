@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Licensed: code MIT, site content CC BY-NC 4.0 (owner's devinfo.dev pattern, applied 2026-10-11); canonical MIT text added as `LICENSE`.
+
+
 ### Added
 - Portfolio certification rollout: `CONTRIBUTING.md` with the PR-flow discipline
   (draft PR → owner merges; no direct pushes to `main`; CHANGELOG entry under
